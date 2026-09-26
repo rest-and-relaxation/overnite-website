@@ -8,16 +8,14 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
 const assets = {
   logo: '/assets/overnite-logo.png',
   presentCompany: '/assets/present-company-logo.png',
-  work: '/assets/work-source-1.png',
+  reel: '/assets/present-company-reel-2026.mp4',
+  reelPoster: '/assets/present-company-reel-poster.jpg',
   sun: '/assets/icon-sun.png',
   skull: '/assets/icon-skull.png',
   moon: '/assets/icon-moon.png',
   time: '/assets/icon-time.png',
   folder: '/assets/icon-folder.png',
-  pagination: '/assets/icon-pagination.png',
 };
-
-const galleryPositions = ['center', '35% center', '65% center'];
 
 function LocalClock() {
   const [time, setTime] = useState(() => formatTime());
@@ -79,26 +77,37 @@ function Header({ theme, setTheme }) {
 }
 
 function Gallery() {
-  const [frame, setFrame] = useState(0);
-  const advance = (direction) => setFrame((current) =>
-    (current + direction + galleryPositions.length) % galleryPositions.length
-  );
+  const videoRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   return (
     <section className="work-section page-inner" id="work" aria-label="Selected work">
       <div className="work-viewer" data-reveal>
-        <img
-          className="work-image"
-          src={assets.work}
-          alt="Colourful illustrated music studio with speakers, lips, and a keyboard"
-          style={{ objectPosition: galleryPositions[frame] }}
-        />
-        <button className="gallery-arrow gallery-arrow-prev" type="button" onClick={() => advance(-1)} aria-label="Previous artwork view">←</button>
-        <button className="gallery-arrow gallery-arrow-next" type="button" onClick={() => advance(1)} aria-label="Next artwork view">→</button>
-        <div className="gallery-pagination" aria-label={`Artwork view ${frame + 1} of ${galleryPositions.length}`}>
-          <img src={assets.pagination} alt="" />
-          <span className="visually-hidden">View {frame + 1} of {galleryPositions.length}</span>
-        </div>
+        <video
+          ref={videoRef}
+          className="work-video"
+          controls
+          playsInline
+          preload="metadata"
+          poster={assets.reelPoster}
+          aria-label="Present Company 2026 studio reel"
+          onPlay={() => setIsPlaying(true)}
+          onPause={() => setIsPlaying(false)}
+          onEnded={() => setIsPlaying(false)}
+        >
+          <source src={assets.reel} type="video/mp4" />
+          Your browser does not support HTML video.
+        </video>
+        {!isPlaying && (
+          <button
+            className="video-play-button"
+            type="button"
+            aria-label="Play Present Company 2026 reel"
+            onClick={() => videoRef.current?.play()}
+          >
+            <span aria-hidden="true" />
+          </button>
+        )}
       </div>
       <div className="work-caption meta-grid" data-reveal>
         <div className="client-logo"><img src={assets.presentCompany} alt="Present Company" /></div>

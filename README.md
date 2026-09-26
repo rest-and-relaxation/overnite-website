@@ -13,7 +13,8 @@ Use `npm run build` for a production build.
 
 ## Implementation notes
 
-- The page uses local Figma artwork, logos, icons, Handjet, and IBM Plex Mono files in `public/assets`.
+- The page uses local Figma logos, icons, Handjet, and IBM Plex Mono files in `public/assets`.
+- The featured work uses the supplied 2026 Present Company reel as an H.264/AAC MP4 with a local poster image. It is prepared for streaming and loaded on demand.
 - GSAP animates the hero and scroll reveals, with reduced-motion support.
 - The desktop composition follows the 1920px Figma frame. Mobile layouts adapt the same content at narrow widths.
 - Instagram is shown as text until an official Overnite Studio profile URL is provided.
